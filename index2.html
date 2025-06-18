@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DamStore | Sepatu Premium</title>
+
+  <!-- CDN Bootstrap, Google Fonts & AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <!-- Font Awesome untuk icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #111;
+      scroll-behavior: smooth;
+    }
+    a { text-decoration: none; color: inherit; }
+    .navbar-custom {
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+      background-color: #fff;
+    }
+    .navbar-custom .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .navbar-custom .nav-link {
+      margin-left: 25px;
+      font-weight: 500;
+      color: #333;
+      font-size: 0.95rem;
+      position: relative;
+    }
+    .navbar-custom .nav-link::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      left: 0;
+      bottom: -5px;
+      background-color: #000;
+      transition: 0.3s;
+    }
+    .navbar-custom .nav-link:hover::after { width: 100%; }
+    #produk {
+      padding: 60px 15px;
+      transition: background 0.3s ease;
+      color: white;
+    }
+    #produk h2 { font-weight: 700; margin-bottom: 1rem; }
+    #produk .desc {
+      font-weight: 500;
+      margin-bottom: 20px;
+      max-width: 550px;
+    }
+    #produk .btn-harga {
+      background-color: #FF4C29;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 12px 30px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    #produk .btn-harga:hover { background-color: #cc3d22; }
+    #produk .shoe-image {
+      max-width: 100%;
+      max-height: 350px;
+      user-select: none;
+      pointer-events: none;
+      transition: transform 0.2s ease;
+    }
+    #produk .icon-container {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #produk .icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: rgba(255 255 255 / 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 76, 41, 0.3);
+      transition: 0.3s ease;
+      border: 2px solid transparent;
+    }
+    #produk .icon img {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      object-fit: contain;
+      user-select: none;
+      pointer-events: none;
+    }
+    #produk .icon.active {
+      background-color: #FF4C29;
+      box-shadow: 0 0 30px #FF4C29;
+      border-color: white;
+    }
+    @media (min-width: 992px) {
+      #produk .row > div:first-child { max-width: 550px; }
+    }
+    .product-img { transition: 0.3s ease; }
+    .product-img:hover { transform: scale(1.05); }
+
+    /* NEW FEATURES STYLES */
+    
+    /* Promo Banner */
+    .promo-banner {
+      background: linear-gradient(45deg, #FF4C29, #FF6B47);
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-weight: 600;
+      animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    
+    /* Cart Icon */
+    .cart-icon {
+      position: relative;
+      color: #333;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    
+    .cart-icon:hover { color: #FF4C29; }
+    
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #FF4C29;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+    
+    /* Size Selector */
+    .size-selector {
+      margin: 20px 0;
+    }
+    
+    .size-btn {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(255,255,255,0.5);
+      background: transparent;
+      color: white;
+      border-radius: 8px;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+    
+    .size-btn:hover, .size-btn.active {
+      background: white;
+      color: #333;
+      border-color: white;
+    }
+    
+    /* Quantity Counter */
+    .quantity-counter {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .qty-btn {
+      width: 35px;
+      height: 35px;
+      border: 2px solid rgba(255,255,255,0.5);
+      background: transparent;
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    
+    .qty-btn:hover {
+      background: white;
+      color: #333;
+    }
+    
+    .qty-display {
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      min-width: 30px;
+      text-align: center;
+    }
+    
+    /* Wishlist Button */
+    .wishlist-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      z-index: 10;
+    }
+    
+    .wishlist-btn:hover {
+      background: #FF4C29;
+      color: white;
+    }
+    
+    .wishlist-btn.active {
+      background: #FF4C29;
+      color: white;
+    }
+    
+    /* Product Reviews */
+    .reviews-section {
+      background: #f8f9fa;
+      padding: 50px 0;
+    }
+    
+    .review-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .stars {
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+    
+    /* Loading Animation */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #FF4C29;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Live Chat Widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: #FF4C29;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255,76,41,0.4);
+      z-index: 1000;
+      animation: pulse 2s infinite;
+    }
+    
+    .chat-widget i {
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 4px 12px rgba(255,76,41,0.4); }
+      50% { box-shadow: 0 4px 20px rgba(255,76,41,0.8); }
+      100% { box-shadow: 0 4px 12px rgba(255,76,41,0.4); }
+    }
+    
+    /* Search Bar */
+    .search-container {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto 30px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 50px 12px 20px;
+      border: 2px solid #ddd;
+      border-radius: 25px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #FF4C29;
+    }
+    
+    .search-btn {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #FF4C29;
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    /* Quick View Modal */
+    .modal-content {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    
+    .modal-header {
+      background: linear-gradient(45deg, #FF4C29, #FF6B47);
+      color: white;
+      border: none;
+    }
+    
+    /* Notification Toast */
+    .toast-container {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      z-index: 9999;
+    }
+    
+    .custom-toast {
+      background: #FF4C29;
+      color: white;
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: slideInRight 0.3s ease;
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    
+    /* Filter Buttons */
+    .filter-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 8px 20px;
+      border: 2px solid #FF4C29;
+      background: transparent;
+      color: #FF4C29;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background: #FF4C29;
+      color: white;
+    }
+    
+    /* Product Rating */
+    .product-rating {
+      margin: 10px 0;
+    }
+    
+    .rating-stars {
+      color: #FFD700;
+      margin-right: 10px;
+    }
+    
+    .rating-count {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    /* Stock Status */
+    .stock-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .stock-status.in-stock {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .stock-status.low-stock {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .stock-status.out-stock {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-add-cart {
+      background: #FF4C29;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex: 1;
+      min-width: 120px;
+    }
+    
+    .btn-add-cart:hover {
+      background: #cc3d22;
+      transform: translateY(-2px);
+    }
+    
+    .btn-buy-now {
+      background: transparent;
+      color: #FF4C29;
+      border: 2px solid #FF4C29;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex: 1;
+      min-width: 120px;
+    }
+    
+    .btn-buy-now:hover {
+      background: #FF4C29;
+      color: white;
+    }
+    
+    /* Parallax Effect */
+    .parallax-section {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><defs><pattern id="shoe-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="20" fill="rgba(255,76,41,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23shoe-pattern)"/></svg>');
+      background-attachment: fixed;
+      background-size: cover;
+      padding: 100px 0;
+      color: white;
+      text-align: center;
+    }
+    
+    /* Discount Badge */
+    .discount-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #FF4C29;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      z-index: 10;
+    }
+    
+    /* Newsletter Section */
+    .newsletter-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 0;
+    }
+    
+    .newsletter-input {
+      padding: 15px 20px;
+      border: none;
+      border-radius: 25px;
+      width: 100%;
+      max-width: 300px;
+      margin-right: 10px;
+    }
+    
+    .newsletter-btn {
+      background: #FF4C29;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .newsletter-btn:hover {
+      background: #cc3d22;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+
+<div class="promo-banner">
+  <div class="container">
+    <span>🎉 FREE SHIPPING untuk pembelian di atas Rp 500.000! 🚚</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-md navbar-custom fixed-top" data-aos="fade-down">
+  <div class="container">
+    <a class="navbar-brand" href="#">DamStore</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link" href="#produk">Shop</a></li>
+        <li class="nav-item ms-3">
+          <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- INTERAKTIF SEPATU -->
+<section id="produk" style="background: linear-gradient(135deg,#8b0000,#FF0000); margin-top:120px;">
+  <div class="container">
+    <div class="row align-items-center justify-content-center gy-4">
+      <div class="col-lg-6 text-center" data-aos="zoom-in">
+        <img src="1.png" alt="Sepatu Red Blaze" id="mainShoe" class="shoe-image" />
+        <div class="icon-container mt-4">
+          <div class="icon active" data-shoe="1"><img src="1.png" alt="Red Blaze" /></div>
+          <div class="icon" data-shoe="2"><img src="2.png" alt="Golden Strike" /></div>
+          <div class="icon" data-shoe="3"><img src="3.png" alt="Vintage Gold" /></div>
+          <div class="icon" data-shoe="4"><img src="4.png" alt="Ocean Rush" /></div>
+        </div>
+      </div>
+      <div class="col-lg-6 text-white text-center text-lg-start" data-aos="fade-left">
+        <h2 id="shoeTitle">Red Blaze</h2>
+        <div class="product-rating">
+          <span class="rating-stars">★★★★★</span>
+          <span class="rating-count">(127 reviews)</span>
+        </div>
+        <p class="desc" id="shoeDesc">
+          🔥 <strong>Red Blaze</strong> – Sepatu merah menyala yang bikin lo langsung jadi pusat perhatian!
+          Didesain sporty & stylish, nyaman dipake buat olahraga, nongkrong, sampai OOTD-an.
+        </p>
+        
+        <!-- Size Selector -->
+        <div class="size-selector">
+          <label class="text-white fw-bold mb-2 d-block">Pilih Ukuran:</label>
+          <button class="size-btn" data-size="38">38</button>
+          <button class="size-btn active" data-size="39">39</button>
+          <button class="size-btn" data-size="40">40</button>
+          <button class="size-btn" data-size="41">41</button>
+          <button class="size-btn" data-size="42">42</button>
+          <button class="size-btn" data-size="43">43</button>
+          <button class="size-btn" data-size="44">44</button>
+        </div>
+        
+        <!-- Quantity Counter -->
+        <div class="quantity-counter">
+          <label class="text-white fw-bold">Jumlah:</label>
+          <button class="qty-btn" onclick="decreaseQty()">-</button>
+          <span class="qty-display" id="qtyDisplay">1</span>
+          <button class="qty-btn" onclick="increaseQty()">+</button>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="btn-add-cart" onclick="addToCart()">
+            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+          </button>
+          <button class="btn-buy-now" onclick="buyNow()">
+            <i class="fas fa-bolt me-2"></i>Buy Now
+          </button>
+        </div>
+        
+        <button class="btn-harga mt-3" id="shoePrice">Rp 499.000</button>
+        <div class="stock-status in-stock mt-2">✓ In Stock</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARALLAX SECTION -->
+<section class="parallax-section">
+  <div class="container">
+    <h2 class="fw-bold mb-4" data-aos="fade-up">Kenapa Pilih DamStore?</h2>
+    <div class="row">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-shipping-fast fa-3x mb-3"></i>
+        <h5>Free Shipping</h5>
+        <p>Gratis ongkir ke seluruh Indonesia</p>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-award fa-3x mb-3"></i>
+        <h5>Kualitas Premium</h5>
+        <p>Material berkualitas tinggi & tahan lama</p>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <i class="fas fa-undo fa-3x mb-3"></i>
+        <h5>30 Hari Return</h5>
+        <p>Garansi tukar jika tidak puas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KATALOG PRODUK -->
+<section id="katalog" class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="fw-bold">Koleksi DamStore</h2>
+      <p class="text-muted">Desain modern, kualitas premium, cocok buat lo yang gak suka biasa-biasa aja.</p>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="search-container" data-aos="fade-up">
+      <input type="text" class="search-input" placeholder="Cari sepatu favorit..." id="searchInput">
+      <button class="search-btn" onclick="searchProducts()">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    
+    <!-- Filter Buttons -->
+    <div class="filter-container" data-aos="fade-up">
+      <button class="filter-btn active" data-filter="all">Semua</button>
+      <button class="filter-btn" data-filter="red">Merah</button>
+      <button class="filter-btn" data-filter="gold">Emas</button>
+      <button class="filter-btn" data-filter="blue">Biru</button>
+      <button class="filter-btn" data-filter="trending">Trending</button>
+    </div>
+    
+    <div class="row g-4" id="productGrid">
+      <div class="col-md-3 col-sm-6 product-item" data-category="red trending" data-aos="zoom-in">
+        <div class="card border-0 shadow-sm h-100 text-center position-relative">
+          <div class="discount-badge">-20%</div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <i class="far fa-heart"></i>
+          </button>
+          <img src="1.png" alt="Red Blaze" class="card-img-top product-img">
+          <div class="card-body">
+            <h5 class="fw-semibold">Red Blaze</h5>
+            <div class="product-rating">
+              <span class="rating-stars">★★★★★</span>
+              <span class="rating-count">(127)</span>
+            </div>
+            <p class="text-muted small">Merah menyala, bold dan cocok buat lo yang suka tampil beda.</p>
+            <p class="fw-bold">Rp 499.000 <small class="text-muted text-decoration-line-through">Rp 599.000</small></p>
+            <div class="action-buttons">
+              <button class="btn-add-cart btn-sm" onclick="addToCartFromCatalog('Vintage Gold', 499000)">
+                <i class="fas fa-cart-plus me-1"></i>Add to Cart
+              </button>
+              <button class="btn btn-outline-primary btn-sm" onclick="quickView('Vintage Gold')">
+                <i class="fas fa-eye me-1"></i>Quick View
+              </button>
+            </div>
+            <div class="stock-status in-stock">✓ In Stock</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 product-item" data-category="blue" data-aos="zoom-in">
+        <div class="card border-0 shadow-sm h-100 text-center position-relative">
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <i class="far fa-heart"></i>
+          </button>
+          <img src="4.png" alt="Ocean Rush" class="card-img-top product-img">
+          <div class="card-body">
+            <h5 class="fw-semibold">Ocean Rush</h5>
+            <div class="product-rating">
+              <span class="rating-stars">★★★★☆</span>
+              <span class="rating-count">(92)</span>
+            </div>
+            <p class="text-muted small">Nuansa biru kalem tapi tetap sporty dan nyaman di kaki.</p>
+            <p class="fw-bold">Rp 499.000</p>
+            <div class="action-buttons">
+              <button class="btn-add-cart btn-sm" onclick="addToCartFromCatalog('Ocean Rush', 499000)">
+                <i class="fas fa-cart-plus me-1"></i>Add to Cart
+              </button>
+              <button class="btn btn-outline-primary btn-sm" onclick="quickView('Ocean Rush')">
+                <i class="fas fa-eye me-1"></i>Quick View
+              </button>
+            </div>
+            <div class="stock-status in-stock">✓ In Stock</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS SECTION -->
+<section class="reviews-section">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="fw-bold">Apa Kata Customer</h2>
+      <p class="text-muted">Testimoni dari ribuan customer yang puas</p>
+    </div>
+    <div class="row">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"Kualitas sepatu mantap banget! Nyaman dipake seharian, design juga keren abis. Recommended!"</p>
+          <strong>- Ahmad Rizki</strong>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"Pelayanan cepet, packaging rapi, sepatu sesuai ekspektasi. Bakal order lagi pasti!"</p>
+          <strong>- Sari Dewi</strong>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="review-card">
+          <div class="stars">★★★★☆</div>
+          <p>"Material premium, harga worth it. Cuma pengiriman agak lama, tapi overall satisfied!"</p>
+          <strong>- Budi Santoso</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER SECTION -->
+<section class="newsletter-section">
+  <div class="container text-center">
+    <div data-aos="fade-up">
+      <h2 class="fw-bold mb-3">Stay Updated!</h2>
+      <p class="mb-4">Dapetin info terbaru tentang produk baru, diskon, dan promo eksklusif</p>
+      <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
+        <input type="email" class="newsletter-input" placeholder="Masukkan email kamu..." id="newsletterEmail">
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">
+          <i class="fas fa-paper-plane me-2"></i>Subscribe
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal fade" id="quickViewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Quick View</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <img src="1.png" alt="Product" class="img-fluid" id="modalImage">
+          </div>
+          <div class="col-md-6">
+            <h4 id="modalProductName">Product Name</h4>
+            <div class="product-rating">
+              <span class="rating-stars">★★★★★</span>
+              <span class="rating-count">(127 reviews)</span>
+            </div>
+            <p id="modalDescription">Product description...</p>
+            <h5 class="text-primary" id="modalPrice">Rp 499.000</h5>
+            <div class="size-selector">
+              <label class="fw-bold mb-2 d-block">Pilih Ukuran:</label>
+              <button class="size-btn" data-size="38">38</button>
+              <button class="size-btn active" data-size="39">39</button>
+              <button class="size-btn" data-size="40">40</button>
+              <button class="size-btn" data-size="41">41</button>
+              <button class="size-btn" data-size="42">42</button>
+              <button class="size-btn" data-size="43">43</button>
+              <button class="size-btn" data-size="44">44</button>
+            </div>
+            <div class="action-buttons mt-3">
+              <button class="btn-add-cart" onclick="addToCartFromModal()">
+                <i class="fas fa-cart-plus me-2"></i>Add to Cart
+              </button>
+              <button class="btn-buy-now" onclick="buyNowFromModal()">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE CHAT WIDGET -->
+<div class="chat-widget" onclick="openChat()">
+  <i class="fas fa-comments"></i>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once: false });
+
+  const shoes = [
+    { id: 1, image: "1.png", title: "Red Blaze", desc: "🔥 Red Blaze – Sepatu merah menyala yang bikin lo langsung jadi pusat perhatian! Didesain sporty & stylish, nyaman dipake buat olahraga, nongkrong, sampai OOTD-an.", price: "Rp 499.000", bg: "linear-gradient(135deg,#8b0000,#FF0000)" },
+    { id: 2, image: "2.png", title: "Golden Strike", desc: "🌟 Golden Strike – Kesan mewah dari warna emas-oranye. Cocok buat lo yang suka tampil classy tapi tetap energik!", price: "Rp 499.000", bg: "linear-gradient(135deg,#FFD700,#FFA500)" },
+    { id: 3, image: "3.png", title: "Vintage Gold", desc: "🏆 Vintage Gold – Sepatu gaya klasik dengan warna keemasan retro yang bikin lo tampil dewasa tapi tetap keren!", price: "Rp 499.000", bg: "linear-gradient(135deg,#DAA520,#FFD700)" },
+    { id: 4, image: "4.png", title: "Ocean Rush", desc: "💧 Ocean Rush – Warna biru deep & soft buat lo yang suka vibes adem tapi tetep sporty!", price: "Rp 499.000", bg: "linear-gradient(135deg,#00008B,#1E90FF)" }
+  ];
+
+  const mainShoe = document.getElementById('mainShoe');
+  const shoeTitle = document.getElementById('shoeTitle');
+  const shoeDesc = document.getElementById('shoeDesc');
+  const shoePrice = document.getElementById('shoePrice');
+  const produkSection = document.getElementById('produk');
+  const icons = document.querySelectorAll('#produk .icon');
+
+  let cart = [];
+  let wishlist = [];
+  let currentQty = 1;
+  let selectedSize = '39';
+
+  function updateShoe(id) {
+    showLoading();
+    
+    setTimeout(() => {
+      const shoe = shoes.find(s => s.id === id);
+      if (!shoe) return;
+
+      mainShoe.src = shoe.image;
+      shoeTitle.textContent = shoe.title;
+      shoeDesc.textContent = shoe.desc;
+      shoePrice.textContent = shoe.price;
+      produkSection.style.background = shoe.bg;
+
+      icons.forEach(icon => {
+        icon.classList.toggle('active', parseInt(icon.dataset.shoe) === id);
+      });
+      
+      hideLoading();
+    }, 800);
+  }
+
+  icons.forEach(icon => {
+    icon.addEventListener('click', () => {
+      const id = parseInt(icon.dataset.shoe);
+      updateShoe(id);
+    });
+  });
+
+  // Size Selection
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      selectedSize = this.dataset.size;
+    });
+  });
+
+  // Quantity Functions
+  function increaseQty() {
+    if (currentQty < 10) {
+      currentQty++;
+      document.getElementById('qtyDisplay').textContent = currentQty;
+    }
+  }
+
+  function decreaseQty() {
+    if (currentQty > 1) {
+      currentQty--;
+      document.getElementById('qtyDisplay').textContent = currentQty;
+    }
+  }
+
+  // Cart Functions
+  function addToCart() {
+    const currentShoe = shoes.find(s => s.title === shoeTitle.textContent);
+    const item = {
+      id: Date.now(),
+      name: currentShoe.title,
+      price: 499000,
+      size: selectedSize,
+      qty: currentQty,
+      image: currentShoe.image
+    };
+    
+    cart.push(item);
+    updateCartBadge();
+    showToast(`${item.name} (Size ${item.size}) berhasil ditambahkan ke cart!`, 'success');
+  }
+
+  function addToCartFromCatalog(name, price) {
+    const item = {
+      id: Date.now(),
+      name: name,
+      price: price,
+      size: '39',
+      qty: 1,
+      image: getImageByName(name)
+    };
+    
+    cart.push(item);
+    updateCartBadge();
+    showToast(`${name} berhasil ditambahkan ke cart!`, 'success');
+  }
+
+  function getImageByName(name) {
+    const shoe = shoes.find(s => s.title === name);
+    return shoe ? shoe.image : '1.png';
+  }
+
+  function updateCartBadge() {
+    document.getElementById('cartBadge').textContent = cart.length;
+  }
+
+  function toggleCart() {
+    if (cart.length === 0) {
+      showToast('Cart masih kosong!', 'warning');
+      return;
+    }
+    
+    let cartItems = cart.map(item => 
+      `${item.name} (Size ${item.size}) x${item.qty} - Rp ${item.price.toLocaleString()}`
+    ).join('\n');
+    
+    alert(`Cart Items:\n${cartItems}\n\nTotal: Rp ${cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toLocaleString()}`);
+  }
+
+  // Wishlist Functions
+  function toggleWishlist(btn) {
+    const productName = btn.closest('.card').querySelector('h5').textContent;
+    const icon = btn.querySelector('i');
+    
+    if (icon.classList.contains('far')) {
+      icon.classList.remove('far');
+      icon.classList.add('fas');
+      btn.classList.add('active');
+      wishlist.push(productName);
+      showToast(`${productName} ditambahkan ke wishlist!`, 'success');
+    } else {
+      icon.classList.remove('fas');
+      icon.classList.add('far');
+      btn.classList.remove('active');
+      wishlist = wishlist.filter(item => item !== productName);
+      showToast(`${productName} dihapus dari wishlist!`, 'info');
+    }
+  }
+
+  // Buy Now Functions
+  function buyNow() {
+    const currentShoe = shoes.find(s => s.title === shoeTitle.textContent);
+    showToast(`Redirecting to checkout for ${currentShoe.title}...`, 'success');
+    
+    setTimeout(() => {
+      alert(`Checkout:\n${currentShoe.title}\nSize: ${selectedSize}\nQty: ${currentQty}\nTotal: Rp ${(499000 * currentQty).toLocaleString()}`);
+    }, 1000);
+  }
+
+  function buyNowFromModal() {
+    const productName = document.getElementById('modalProductName').textContent;
+    showToast(`Redirecting to checkout for ${productName}...`, 'success');
+  }
+
+  // Quick View Modal
+  function quickView(productName) {
+    const shoe = shoes.find(s => s.title === productName);
+    if (!shoe) return;
+    
+    document.getElementById('modalTitle').textContent = productName;
+    document.getElementById('modalProductName').textContent = productName;
+    document.getElementById('modalImage').src = shoe.image;
+    document.getElementById('modalDescription').textContent = shoe.desc;
+    document.getElementById('modalPrice').textContent = shoe.price;
+    
+    new bootstrap.Modal(document.getElementById('quickViewModal')).show();
+  }
+
+  function addToCartFromModal() {
+    const productName = document.getElementById('modalProductName').textContent;
+    addToCartFromCatalog(productName, 499000);
+    bootstrap.Modal.getInstance(document.getElementById('quickViewModal')).hide();
+  }
+
+  // Search Function
+  function searchProducts() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const products = document.querySelectorAll('.product-item');
+    
+    products.forEach(product => {
+      const productName = product.querySelector('h5').textContent.toLowerCase();
+      const productDesc = product.querySelector('.text-muted').textContent.toLowerCase();
+      
+      if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+        product.style.display = 'block';
+      } else {
+        product.style.display = searchTerm === '' ? 'block' : 'none';
+      }
+    });
+  }
+
+  // Filter Functions
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const filter = this.dataset.filter;
+      const products = document.querySelectorAll('.product-item');
+      
+      products.forEach(product => {
+        if (filter === 'all') {
+          product.style.display = 'block';
+        } else {
+          const categories = product.dataset.category.split(' ');
+          product.style.display = categories.includes(filter) ? 'block' : 'none';
+        }
+      });
+    });
+  });
+
+  // Search on Enter
+  document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      searchProducts();
+    }
+  });
+
+  // Live Chat
+  function openChat() {
+    showToast('Menghubungkan ke customer service...', 'info');
+    setTimeout(() => {
+      alert('Hi! Ada yang bisa kami bantu?\n\nWhatsApp: +62 87794528713\nEmail: ihyaneed10ms@gmail.com\nJam Kerja: 09:00 - 21:00');
+    }, 1000);
+  }
+
+  // Newsletter
+  function subscribeNewsletter() {
+    const email = document.getElementById('newsletterEmail').value;
+    if (!email) {
+      showToast('Masukkan email dulu ya!', 'warning');
+      return;
+    }
+    
+    if (!email.includes('@')) {
+      showToast('Format email tidak valid!', 'error');
+      return;
+    }
+    
+    showToast('Berhasil subscribe newsletter! Check email kamu ya 📧', 'success');
+    document.getElementById('newsletterEmail').value = '';
+  }
+
+  // Toast Notifications
+  function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast';
+    
+    const icons = {
+      success: '✅',
+      error: '❌',
+      warning: '⚠️',
+      info: 'ℹ️'
+    };
+    
+    toast.innerHTML = `${icons[type]} ${message}`;
+    toastContainer.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+
+  // Loading Functions
+  function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+  }
+
+  function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+  }
+
+  // Initialize
+  updateShoe(1);
+  
+  // Auto-hide promo banner after 10 seconds
+  setTimeout(() => {
+    const banner = document.querySelector('.promo-banner');
+    if (banner) {
+      banner.style.transform = 'translateY(-100%)';
+      setTimeout(() => banner.remove(), 500);
+    }
+  }, 10000);
+
+  // Smooth scroll for navigation
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Add scroll effect to navbar
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar-custom');
+    if (window.scrollY > 100) {
+      navbar.style.backgroundColor = 'rgba(255,255,255,0.95)';
+      navbar.style.backdropFilter = 'blur(10px)';
+    } else {
+      navbar.style.backgroundColor = '#fff';
+      navbar.style.backdropFilter = 'none';
+    }
+  });
+
+  // Add mouse parallax effect to main shoe image
+  document.addEventListener('mousemove', function(e) {
+    const shoe = document.getElementById('mainShoe');
+    const rect = shoe.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    
+    const rotateX = (y / rect.height) * 10;
+    const rotateY = (x / rect.width) * 10;
+    
+    shoe.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+  });
+
+  // Reset transform when mouse leaves
+  document.getElementById('mainShoe').addEventListener('mouseleave', function() {
+    this.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  });
+</script>
+<footer class="bg-dark text-white py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <h5 class="fw-bold mb-3">DamStore</h5>
+        <p>Sepatu premium berkualitas tinggi dengan desain modern dan stylish. Kepuasan customer adalah prioritas utama kami.</p>
+        <div class="d-flex gap-3">
+          <a href="https://www.instagram.com/dammjet/?next=%2F" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/@ElDamsky" class="text-white fs-4"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-bold mb-3">Quick Links</h6>
+        <ul class="list-unstyled">
+          <li><a href="#produk" class="text-white-50">Shop</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-bold mb-3">Customer Care</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50">Help Center</a></li>
+          <li><a href="#" class="text-white-50">Shipping Info</a></li>
+          <li><a href="#" class="text-white-50">Returns</a></li>
+          <li><a href="#" class="text-white-50">Size Guide</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6 class="fw-bold mb-3">Contact Info</h6>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Jakarta, Indonesia</p>
+        <p><i class="fas fa-phone me-2"></i>+62 87794528713</p>
+        <p><i class="fas fa-envelope me-2"></i>info@ihyaneed10ms.com</p>
+        <p><i class="fas fa-clock me-2"></i>Mon - Sun: 09:00 - 21:00</p>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="text-center">
+      <p>&copy; 2025 DamStore. All rights reserved. Made with ❤️ in Indonesia</p>
+    </div>
+  </div>
+</footer>
